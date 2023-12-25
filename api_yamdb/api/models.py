@@ -9,6 +9,13 @@ from django.contrib.auth.models import (
 
 from django.db import models
 
+GROUP_ROLE_CHOICES = [
+    ('admin', 'admin'),
+    ('moderator', 'moderator'),
+    ('superuser', 'superuser'),
+    ('user', 'user')
+]
+
 
 class UserManager(BaseUserManager):
 
@@ -20,7 +27,6 @@ class UserManager(BaseUserManager):
             raise TypeError('Users must have an email address.')
 
         user = self.model(username=username, email=self.normalize_email(email))
-        user.token = user.token()
         user.save()
 
         return user
@@ -31,6 +37,7 @@ class UserManager(BaseUserManager):
 
         user = self.create_user(username, email, password)
         user.is_superuser = True
+        user.role = 'superuser'
         user.is_staff = True
         user.save()
 
@@ -43,7 +50,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(db_index=True, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
+    role = models.CharField(choices=GROUP_ROLE_CHOICES, default='user', max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -55,6 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+    @property
     def token(self):
         return self._generate_jwt_token()
 
