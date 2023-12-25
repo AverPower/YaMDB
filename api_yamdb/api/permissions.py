@@ -1,11 +1,18 @@
 from rest_framework import permissions
 
 
-class HasGroupPermission(permissions.BasePermission):
+class RolePermission(permissions.BasePermission):
     def has_permission(self, request, view):
-        required_groups = view.permission_groups.get(view.action)
-        if required_groups is None:
+        if not request.user.is_authenticated:
             return False
-        elif '_Public' in required_groups:
+        required_roles = view.permission_groups.get(view.action)
+        if required_roles is None:
+            return False
+        return request.user.role in required_roles
+
+
+class CurrentUserPermission(permissions.IsAuthenticated):
+    def has_object_permission(self, request, view, obj):
+        if request.user.username == obj.username:
             return True
-        return request.role in required_groups
+        return False

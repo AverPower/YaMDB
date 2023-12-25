@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import permissions
-from rest_framework import viewsets
 
 from .models import User
 from .serializers import SignUpSerializer, LoginSerializer
@@ -44,12 +43,3 @@ class LoginAPIView(APIView):
 class TestView(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
-
-class FooViewSet(viewsets.ModelViewSet):
-    # serializer_class = FooSerializer
-    # permission_classes = [HasGroupPermission]
-    permission_groups = {
-        'create': ['Developers'],
-        'partial_update': ['Designers', 'Developers'],
-        'retrieve': ['_Public'],
-    }
