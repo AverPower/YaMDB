@@ -13,6 +13,7 @@ class RolePermission(permissions.BasePermission):
 
 class CurrentUserPermission(permissions.IsAuthenticated):
     def has_object_permission(self, request, view, obj):
+        print("USERNAME", request.user.username, obj.username)
         if request.user.username == obj.username:
             return True
         return False

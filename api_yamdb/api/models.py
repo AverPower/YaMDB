@@ -18,7 +18,7 @@ GROUP_ROLE_CHOICES = [
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, username, email):
+    def create_user(self, username, email, password=None):
         if username is None:
             raise TypeError('Users must have a username.')
 
@@ -26,6 +26,7 @@ class UserManager(BaseUserManager):
             raise TypeError('Users must have an email address.')
 
         user = self.model(username=username, email=self.normalize_email(email))
+        user.set_password(password)
         user.save()
 
         return user
@@ -49,9 +50,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(db_index=True, unique=True, max_length=254)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    bio = models.TextField()
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
+    bio = models.TextField(blank=True)
     role = models.CharField(choices=GROUP_ROLE_CHOICES, default='user', max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -2,17 +2,17 @@ from django.urls import path, include
 
 from rest_framework import routers
 
-from .views import UserViewSet, user_me_view
+from .views import UserViewSet, UserMeViewSet
 
 
 app_name = 'users'
 
 router = routers.DefaultRouter()
 
-router.register(r'/(?P<user_id>^[\w.@+-]+\z)', UserViewSet)
+router.register(r'', UserViewSet)
 
 
 urlpatterns = [
+    path('me/', UserMeViewSet.as_view({'get': 'retrieve', 'patch': 'partial_update'})),
     path('', include(router.urls)),
-    path('me/', user_me_view.asview())
 ]

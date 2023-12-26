@@ -10,8 +10,8 @@ class UserSeriliazer(serializers.ModelSerializer):
         fields = ('username', 'email', 'first_name', 'last_name', 'bio', 'role')
 
     def validate_username(self, value: str):
-        if not re.match(r'^[\w.@+-]+\z', value):
+        if not re.match(r'^[\w.@+-]+$', value):
             return serializers.ValidationError(
                 "Your username must be less than 150 charactesr and contain letters, digits and @/./+/-/_ only"
             )
-        return True
+        return value
