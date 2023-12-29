@@ -116,6 +116,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'api.backends.JWTAuthentication',
     ),
+    'PAGE_SIZE': 5,
 }
 
 AUTH_USER_MODEL = 'api.User'

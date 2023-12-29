@@ -42,4 +42,3 @@ class LoginAPIView(APIView):
 
 class TestView(APIView):
     permission_classes = (permissions.IsAuthenticated, )
-
