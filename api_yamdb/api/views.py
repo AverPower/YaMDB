@@ -3,7 +3,6 @@ from django.core.mail import send_mail
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework import permissions
 
 from .models import User
 from .serializers import SignUpSerializer, LoginSerializer
@@ -24,6 +23,18 @@ class SignUpAPIView(APIView):
             )
             serializer.save()
             return Response(status=status.HTTP_202_ACCEPTED)
+        username_error = serializer.errors.get('username')
+        email_error = serializer.errors.get('email')
+        if username_error and email_error:
+            if username_error[0].code == 'unique' and email_error[0].code == 'unique':
+                code = generate_confirmation_code(serializer.initial_data['username'])
+                send_mail(
+                    subject='Registration YaMDB',
+                    message=f'Your verification code is {code}',
+                    from_email='yambd_noanswer@ya.ru',
+                    recipient_list=[serializer.initial_data['email']]
+                )
+                return Response(status=status.HTTP_202_ACCEPTED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, validated_data):
@@ -38,7 +49,3 @@ class LoginAPIView(APIView):
         serializer.is_valid(raise_exception=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-class TestView(APIView):
-    permission_classes = (permissions.IsAuthenticated, )

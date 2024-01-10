@@ -4,8 +4,8 @@ from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 
 from api.permissions import RolePermission
-from serializers import TitleSerializer, GenreSerializer, CategorySerializer
-from models import Title, Genre, Category
+from .serializers import TitleSerializer, GenreSerializer, CategorySerializer
+from .models import Title, Genre, Category
 
 
 class TitleViewSet(viewsets.ModelViewSet):
@@ -14,7 +14,7 @@ class TitleViewSet(viewsets.ModelViewSet):
     permission_classes = (RolePermission,)
     filter_backends = (DjangoFilterBackend,)
     pagination_class = PageNumberPagination
-    filterset_fields = ('category__slug', 'genre__slug', 'name', 'year')
+    filterset_fields = ('category__slug', 'name', 'year')
     permission_groups = {
         'list': ['anon'],
         'create': ['admin'],
@@ -34,7 +34,9 @@ class GenreViewSet(
     serializer_class = GenreSerializer
     permission_classes = [RolePermission]
     filter_backends = (filters.SearchFilter, )
+    pagination_class = PageNumberPagination
     search_fields = ['name']
+    lookup_field = 'slug'
     permission_groups = {
         'list': ['anon'],
         'create': ['admin'],
@@ -52,7 +54,9 @@ class CategoryViewSet(
     serializer_class = CategorySerializer
     permission_classes = [RolePermission]
     filter_backends = (filters.SearchFilter, )
+    pagination_class = PageNumberPagination
     search_fields = ['name']
+    lookup_field = 'slug'
     permission_groups = {
         'list': ['anon'],
         'create': ['admin'],

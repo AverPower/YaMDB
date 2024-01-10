@@ -6,7 +6,7 @@ class RolePermission(permissions.BasePermission):
         required_roles = view.permission_groups.get(view.action)
         if required_roles is None:
             return False
-        if required_roles.get('anon'):
+        if 'anon' in required_roles:
             return True
         if not request.user.is_authenticated:
             return False

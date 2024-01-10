@@ -1,12 +1,12 @@
 from django.urls import path, include
 
-from .views import SignUpAPIView, LoginAPIView, TestView
+from .views import SignUpAPIView, LoginAPIView
 
 app_name = "api"
 
 urlpatterns = [
+    path('', include('titles.urls')),
     path('auth/signup/', SignUpAPIView.as_view(), name="auth_signup"),
     path('auth/token/', LoginAPIView.as_view(), name='auth_token'),
-    path('check/', TestView.as_view()),
     path('users/', include('users.urls'))
 ]

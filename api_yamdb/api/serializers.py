@@ -10,9 +10,6 @@ class SignUpSerializer(serializers.ModelSerializer):
         model = User
         fields = ('email', 'username')
 
-    def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
-
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=255, write_only=True)
