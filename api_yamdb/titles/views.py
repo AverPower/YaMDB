@@ -4,8 +4,8 @@ from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
 
 from api.permissions import RolePermission
-from .serializers import TitleSerializer, GenreSerializer, CategorySerializer
-from .models import Title, Genre, Category
+from titles.serializers import TitleSerializer, GenreSerializer, CategorySerializer
+from titles.models import Title, Genre, Category
 
 
 class TitleViewSet(viewsets.ModelViewSet):

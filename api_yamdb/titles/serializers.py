@@ -42,12 +42,14 @@ class CategoryField(serializers.RelatedField):
 
 
 class TitleSerializer(serializers.ModelSerializer):
-    genres = GenreListingField(queryset=Genre.objects.all(), many=True)
+    genre = GenreListingField(queryset=Genre.objects.all(), many=True, source='genres')
     category = CategoryField(queryset=Category.objects.all())
+    id = serializers.IntegerField(source='pk', read_only=True)
+    rating = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Title
-        fields = ('name', 'year', 'description', 'genres', 'category')
+        fields = ('id', 'name', 'year', 'rating', 'description', 'genre', 'category')
 
     def create(self, validated_data):
         genres = validated_data.pop('genres')
@@ -60,5 +62,5 @@ class TitleSerializer(serializers.ModelSerializer):
     def validate_year(self, value):
         current_year = datetime.now().year
         if current_year < value:
-            raise serializers.ValidationError("Year of title must be lowet than current")
+            raise serializers.ValidationError("Year must be lower than current")
         return value
