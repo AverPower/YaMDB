@@ -58,7 +58,7 @@
 
 * ![Static Badge](https://img.shields.io/badge/Python-3.10-green?logo=python)
 * ![Static Badge](https://img.shields.io/badge/Django-5.0-orange?logo=django)
-* ![Static Badge](https://img.shields.io/badge/Bootstrap-5-purple?logo=bootstrap)
+* ![Static Badge](https://img.shields.io/badge/Django%20REST%20Framework-purple)
 
 
 
