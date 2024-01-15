@@ -18,3 +18,14 @@ class CurrentUserPermission(permissions.IsAuthenticated):
         if request.user.username == obj.username:
             return True
         return False
+
+
+class RoleAuthCurrentUserPermission(RolePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        if request.user.role == 'user':
+            if request.user.username == obj.author.username:
+                return True
+            return False
+        return True
