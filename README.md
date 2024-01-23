@@ -59,7 +59,9 @@
 * ![Static Badge](https://img.shields.io/badge/Python-3.10-green?logo=python)
 * ![Static Badge](https://img.shields.io/badge/Django-5.0-orange?logo=django)
 * ![Static Badge](https://img.shields.io/badge/Django%20REST%20Framework-purple)
-
+* ![Static_Badge](https://img.shields.io/badge/docker-25.0.0-blue?logo=docker)
+* ![Static_Badge](https://img.shields.io/badge/postgresql-13.0-yellow?logo=postgresql)
+* ![Static_Badge](https://img.shields.io/badge/nginx-1.25.3-white?logo=nginx)
 
 
 
@@ -110,11 +112,11 @@
    ```
 3. В папке с файлом manage.py выполните команду:
    ```sh
-   python3 manage.py runserver
+   docker-compose up --build -d
    ```
 4. При настройках по умолчанию откройте ресурс
    ```
-   http://127.0.0.1:8000/redoc
+   http://***.***.***.***/redoc
    ```
    Там можно подробно прочитать обо всех ресурсах данного API
 
